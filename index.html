@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
     --navy:   #080C18;
     --navy2:  #0E1525;
@@ -20,345 +19,175 @@
     --slate:  #8B9AAF;
     --white:  #FAF7F2;
   }
-
   html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: var(--cream); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
 
-  body {
-    background: var(--navy);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-
-  .bg-pattern {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-  }
+  .bg-pattern { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
   .bg-pattern svg { width: 100%; height: 100%; opacity: .04; }
-
   .grain {
     position: fixed; inset: 0; z-index: 1; pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     opacity: .025;
   }
 
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    padding: 1.5rem 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    transition: background .4s, border-bottom .4s;
-  }
-  nav.scrolled {
-    background: rgba(8,12,24,.88);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(212,144,10,.12);
-  }
-  .nav-brand {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem; font-weight: 600; letter-spacing: .12em;
-    color: var(--amber2); text-transform: uppercase;
-  }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    font-size: .72rem; font-weight: 500; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--slate);
-    text-decoration: none; transition: color .3s;
-  }
+  /* NAV */
+  nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; transition: background .4s, border-bottom .4s; }
+  nav.scrolled { background: rgba(8,12,24,.88); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(212,144,10,.12); }
+  .nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: .12em; color: var(--amber2); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: .72rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--slate); text-decoration: none; transition: color .3s; }
   .nav-links a:hover { color: var(--amber2); }
-
-  .hamburger {
-    display: none; flex-direction: column; gap: 5px;
-    cursor: pointer; padding: 4px; background: none; border: none;
-  }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
   .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--cream); }
-
-  .mobile-menu {
-    display: none; position: fixed; inset: 0; z-index: 99;
-    background: rgba(8,12,24,.97); backdrop-filter: blur(20px);
-    flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
-  }
+  .mobile-menu { display: none; position: fixed; inset: 0; z-index: 99; background: rgba(8,12,24,.97); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
   .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem; font-weight: 300; color: var(--cream);
-    text-decoration: none; letter-spacing: .08em; transition: color .3s;
-  }
+  .mobile-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--cream); text-decoration: none; letter-spacing: .08em; transition: color .3s; }
   .mobile-menu a:hover { color: var(--amber2); }
-  .mobile-close {
-    position: absolute; top: 1.8rem; right: 2rem;
-    font-size: 1.8rem; color: var(--slate); cursor: pointer;
-    background: none; border: none; transition: color .3s;
-  }
-  .mobile-close:hover { color: var(--white); }
+  .mobile-close { position: absolute; top: 1.8rem; right: 2rem; font-size: 1.8rem; color: var(--slate); cursor: pointer; background: none; border: none; }
 
+  /* LAYOUT */
   .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
 
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: .6rem;
-    padding: .85rem 2rem; background: var(--amber);
-    color: var(--navy); font-size: .78rem; font-weight: 600;
-    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
-    border: none; cursor: pointer; transition: background .3s, transform .3s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
+  /* BUTTONS */
+  .btn-primary { display: inline-flex; align-items: center; gap: .6rem; padding: .85rem 2rem; background: var(--amber); color: var(--navy); font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background .3s, transform .3s; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
   .btn-primary:hover { background: var(--amber2); transform: translateY(-2px); }
-
-  .btn-ghost {
-    display: inline-flex; align-items: center; gap: .6rem;
-    padding: .85rem 2rem; background: transparent;
-    border: 1px solid rgba(212,144,10,.3); color: var(--amber2);
-    font-size: .78rem; font-weight: 500; letter-spacing: .1em;
-    text-transform: uppercase; text-decoration: none; cursor: pointer;
-    transition: border .3s, background .3s, transform .3s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
+  .btn-ghost { display: inline-flex; align-items: center; gap: .6rem; padding: .85rem 2rem; background: transparent; border: 1px solid rgba(212,144,10,.3); color: var(--amber2); font-size: .78rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: border .3s, background .3s, transform .3s; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
   .btn-ghost:hover { border-color: var(--amber2); background: rgba(212,144,10,.07); transform: translateY(-2px); }
 
-  #hero {
-    min-height: 100vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center; gap: 4rem;
-    padding: 8rem 2rem 4rem;
-    max-width: 1140px; margin: 0 auto; position: relative; z-index: 2;
-  }
+  /* HERO */
+  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4rem; padding: 8rem 2rem 4rem; max-width: 1140px; margin: 0 auto; position: relative; z-index: 2; }
   .hero-left { display: flex; flex-direction: column; gap: 2rem; }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: .6rem;
-    padding: .4rem 1rem; border: 1px solid rgba(212,144,10,.35);
-    background: rgba(212,144,10,.07); border-radius: 2px;
-    font-size: .65rem; font-weight: 500; letter-spacing: .2em;
-    text-transform: uppercase; color: var(--amber2); width: fit-content;
-  }
-  .hero-badge::before {
-    content: ''; width: 6px; height: 6px;
-    background: var(--amber2); border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
+  .hero-badge { display: inline-flex; align-items: center; gap: .6rem; padding: .4rem 1rem; border: 1px solid rgba(212,144,10,.35); background: rgba(212,144,10,.07); border-radius: 2px; font-size: .65rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--amber2); width: fit-content; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--amber2); border-radius: 50%; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
-
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 7vw, 5.5rem);
-    font-weight: 300; line-height: 1.02;
-    color: var(--white); letter-spacing: -.01em;
-  }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem,7vw,5.5rem); font-weight: 300; line-height: 1.02; color: var(--white); }
   .hero-title em { font-style: italic; color: var(--amber2); }
   .hero-title strong { font-weight: 700; }
-
-  .hero-sub {
-    font-size: .95rem; line-height: 1.8; color: var(--slate);
-    max-width: 420px; font-weight: 300;
-  }
-  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-
-  .hero-right { display: flex; justify-content: center; align-items: center; }
+  .hero-sub { font-size: .95rem; line-height: 1.8; color: var(--slate); max-width: 420px; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .hero-right { display: flex; justify-content: center; }
   .profile-frame { position: relative; width: 340px; height: 420px; }
-  .profile-frame::before {
-    content: ''; position: absolute;
-    top: -16px; right: -16px; bottom: 16px; left: 16px;
-    border: 1px solid rgba(212,144,10,.25); z-index: 0;
-  }
-  .profile-frame::after {
-    content: ''; position: absolute;
-    top: 16px; right: 16px; bottom: -16px; left: -16px;
-    border: 1px solid rgba(212,144,10,.1); z-index: 0;
-  }
-  .profile-img {
-    position: relative; z-index: 1;
-    width: 100%; height: 100%;
-    background: var(--navy3); overflow: hidden;
-  }
-  .profile-img img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: sepia(.15) contrast(1.05); display: block;
-  }
-  .profile-initials {
-    width: 100%; height: 100%;
-    display: none; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 6rem; font-weight: 700;
-    color: var(--amber); letter-spacing: -.05em;
-  }
-  .profile-tag {
-    position: absolute; bottom: -1rem; left: -1rem; z-index: 2;
-    background: var(--amber); color: var(--navy);
-    padding: .6rem 1.2rem; font-size: .68rem; font-weight: 600;
-    letter-spacing: .15em; text-transform: uppercase;
-  }
+  .profile-frame::before { content: ''; position: absolute; top: -16px; right: -16px; bottom: 16px; left: 16px; border: 1px solid rgba(212,144,10,.25); z-index: 0; }
+  .profile-frame::after  { content: ''; position: absolute; top: 16px; right: 16px; bottom: -16px; left: -16px; border: 1px solid rgba(212,144,10,.1); z-index: 0; }
+  .profile-img { position: relative; z-index: 1; width: 100%; height: 100%; background: var(--navy3); overflow: hidden; }
+  .profile-img img { width: 100%; height: 100%; object-fit: cover; filter: sepia(.15) contrast(1.05); display: block; }
+  .profile-initials { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 700; color: var(--amber); }
+  .profile-tag { position: absolute; bottom: -1rem; left: -1rem; z-index: 2; background: var(--amber); color: var(--navy); padding: .6rem 1.2rem; font-size: .68rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
 
-  .divider {
-    position: relative; z-index: 2;
-    display: flex; align-items: center; gap: 1.5rem;
-    max-width: 1140px; margin: 0 auto; padding: 0 2rem; opacity: .35;
-  }
+  /* DIVIDER */
+  .divider { position: relative; z-index: 2; display: flex; align-items: center; gap: 1.5rem; max-width: 1140px; margin: 0 auto; padding: 0 2rem; opacity: .35; }
   .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--amber); }
-  .divider span {
-    font-family: 'DM Mono', monospace; font-size: .6rem;
-    letter-spacing: .3em; color: var(--amber2); text-transform: uppercase;
-  }
+  .divider span { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .3em; color: var(--amber2); text-transform: uppercase; }
 
-  .section-label {
-    font-family: 'DM Mono', monospace; font-size: .62rem; font-weight: 500;
-    letter-spacing: .3em; text-transform: uppercase; color: var(--amber); margin-bottom: .8rem;
-  }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-    font-weight: 300; color: var(--white); line-height: 1.1;
-  }
+  /* SECTION LABELS */
+  .section-label { font-family: 'DM Mono', monospace; font-size: .62rem; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: var(--amber); margin-bottom: .8rem; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,4.5vw,3.4rem); font-weight: 300; color: var(--white); line-height: 1.1; }
   .section-title em { font-style: italic; color: var(--amber2); }
 
+  /* STORY */
   #story { padding: 8rem 0; position: relative; z-index: 2; }
   #story .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
   .story-text { display: flex; flex-direction: column; gap: 1.6rem; }
-  .story-body { font-size: .95rem; line-height: 1.9; color: var(--slate); font-weight: 300; }
-  .story-quote {
-    border-left: 2px solid var(--amber); padding-left: 1.5rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.45rem; font-style: italic; font-weight: 300;
-    color: var(--cream); line-height: 1.5;
-  }
+  .story-body { font-size: .95rem; line-height: 1.9; color: var(--slate); }
+  .story-quote { border-left: 2px solid var(--amber); padding-left: 1.5rem; font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-style: italic; font-weight: 300; color: var(--cream); line-height: 1.5; }
   .awards-grid { display: flex; flex-direction: column; gap: 1rem; }
-  .award-item {
-    display: flex; align-items: flex-start; gap: 1.2rem;
-    padding: 1.2rem 1.5rem;
-    border: 1px solid rgba(212,144,10,.12);
-    background: rgba(212,144,10,.03);
-    transition: border .3s, background .3s, transform .3s;
-  }
-  .award-item:hover {
-    border-color: rgba(212,144,10,.35);
-    background: rgba(212,144,10,.06);
-    transform: translateX(6px);
-  }
-  .award-num {
-    font-family: 'Cormorant Garamond', serif; font-size: 2rem;
-    font-weight: 700; color: var(--amber); line-height: 1; min-width: 2.5rem;
-  }
+  .award-item { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.2rem 1.5rem; border: 1px solid rgba(212,144,10,.12); background: rgba(212,144,10,.03); transition: border .3s, background .3s, transform .3s; }
+  .award-item:hover { border-color: rgba(212,144,10,.35); background: rgba(212,144,10,.06); transform: translateX(6px); }
+  .award-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--amber); line-height: 1; min-width: 2.5rem; }
   .award-info { display: flex; flex-direction: column; gap: .3rem; }
   .award-title { font-size: .82rem; font-weight: 500; color: var(--white); }
   .award-desc { font-size: .72rem; color: var(--slate); }
 
+  /* RESEARCH */
   #research { padding: 8rem 0; position: relative; z-index: 2; }
-  .research-header {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap;
-  }
+  .research-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap; }
   .research-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; }
-  .research-card {
-    background: var(--navy2); padding: 2.5rem 2rem;
-    border: 1px solid rgba(212,144,10,.08);
-    display: flex; flex-direction: column; gap: 1.2rem;
-    transition: border .3s, background .3s, transform .3s;
-    position: relative; overflow: hidden;
-  }
-  .research-card::before {
-    content: ''; position: absolute;
-    top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--amber), transparent);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform .4s ease;
-  }
+  .research-card { background: var(--navy2); padding: 2.5rem 2rem; border: 1px solid rgba(212,144,10,.08); display: flex; flex-direction: column; gap: 1.2rem; transition: border .3s, background .3s, transform .3s; position: relative; overflow: hidden; }
+  .research-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg,var(--amber),transparent); transform: scaleX(0); transform-origin: left; transition: transform .4s ease; }
   .research-card:hover { border-color: rgba(212,144,10,.3); background: var(--navy3); transform: translateY(-4px); }
   .research-card:hover::before { transform: scaleX(1); }
-
   .card-num { font-family: 'DM Mono', monospace; font-size: .6rem; color: var(--amber); letter-spacing: .2em; }
   .card-icon { width: 44px; height: 44px; border: 1px solid rgba(212,144,10,.25); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
-  .card-tag {
-    display: inline-block; padding: .2rem .7rem;
-    border: 1px solid rgba(212,144,10,.2); font-size: .6rem;
-    letter-spacing: .2em; text-transform: uppercase;
-    color: var(--amber2); width: fit-content; font-family: 'DM Mono', monospace;
-  }
+  .card-tag { display: inline-block; padding: .2rem .7rem; border: 1px solid rgba(212,144,10,.2); font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--amber2); width: fit-content; font-family: 'DM Mono', monospace; }
   .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); line-height: 1.2; }
   .card-sub { font-size: .75rem; color: var(--amber); letter-spacing: .06em; font-weight: 500; }
   .card-desc { font-size: .82rem; line-height: 1.75; color: var(--slate); flex-grow: 1; }
-  .card-footer {
-    padding-top: 1rem; border-top: 1px solid rgba(212,144,10,.1);
-    font-size: .68rem; color: var(--slate); font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-  }
-  .pdf-btn {
-    display: flex; align-items: center; justify-content: center;
-    padding: .75rem 1rem; margin-top: .4rem;
-    background: rgba(212,144,10,.08); border: 1px solid rgba(212,144,10,.25);
-    color: var(--amber2); font-size: .72rem; font-weight: 500;
-    letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-    transition: background .3s, border .3s, color .3s, transform .2s;
-  }
-  .pdf-btn:hover { background: var(--amber); color: var(--navy); border-color: var(--amber); transform: translateY(-2px); }
+  .card-footer { padding-top: 1rem; border-top: 1px solid rgba(212,144,10,.1); font-size: .68rem; color: var(--slate); font-style: italic; font-family: 'Cormorant Garamond', serif; }
+  .pdf-btn { display: flex; align-items: center; justify-content: center; padding: .75rem 1rem; margin-top: .4rem; background: rgba(212,144,10,.08); border: 1px solid rgba(212,144,10,.25); color: var(--amber2); font-size: .72rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; transition: background .3s, color .3s, transform .2s; }
+  .pdf-btn:hover { background: var(--amber); color: var(--navy); transform: translateY(-2px); }
 
-  #platform {
-    padding: 8rem 0; position: relative; z-index: 2;
-    background: linear-gradient(135deg, var(--navy2) 0%, var(--navy) 100%);
-    border-top: 1px solid rgba(212,144,10,.08);
-    border-bottom: 1px solid rgba(212,144,10,.08);
-  }
+  /* GALLERY */
+  #gallery { padding: 8rem 0; position: relative; z-index: 2; }
+  .gallery-filters { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 3rem; }
+  .gf-btn { padding: .5rem 1.2rem; background: transparent; border: 1px solid rgba(212,144,10,.2); color: var(--slate); font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; cursor: pointer; transition: all .3s; }
+  .gf-btn:hover { border-color: var(--amber); color: var(--amber2); }
+  .gf-btn.active { background: rgba(212,144,10,.12); border-color: var(--amber); color: var(--amber2); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .gallery-item { display: flex; flex-direction: column; gap: .75rem; transition: opacity .4s, transform .4s; }
+  .gallery-item.hidden { display: none; }
+  .gallery-img-wrap { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--navy3); border: 1px solid rgba(212,144,10,.1); cursor: pointer; }
+  .gallery-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+  .gallery-img-wrap:hover img { transform: scale(1.06); }
+  /* placeholder shown when image missing */
+  .gallery-img-wrap .img-placeholder { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; font-size: 2.5rem; color: rgba(212,144,10,.25); background: var(--navy3); }
+  .gallery-img-wrap.img-missing img { display: none; }
+  .gallery-img-wrap.img-missing .img-placeholder { display: flex; }
+  .gallery-overlay { position: absolute; inset: 0; background: rgba(8,12,24,.55); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .gallery-overlay span { font-size: 1.8rem; }
+  .gallery-img-wrap:hover .gallery-overlay { opacity: 1; }
+  .gallery-caption { display: flex; flex-direction: column; gap: .3rem; }
+  .gcap-tag { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); }
+  .gcap-text { font-size: .8rem; color: var(--slate); line-height: 1.5; }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(8,12,24,.96); backdrop-filter: blur(12px); align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lb-inner { position: relative; max-width: 90vw; max-height: 85vh; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  .lb-inner img { max-width: 100%; max-height: 78vh; object-fit: contain; border: 1px solid rgba(212,144,10,.2); }
+  .lb-caption { font-size: .8rem; color: var(--slate); text-align: center; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+  .lb-close { position: fixed; top: 1.5rem; right: 2rem; background: none; border: none; color: var(--slate); font-size: 2rem; cursor: pointer; z-index: 201; transition: color .3s; line-height: 1; }
+  .lb-close:hover { color: var(--white); }
+  .lb-prev, .lb-next { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(212,144,10,.1); border: 1px solid rgba(212,144,10,.25); color: var(--amber2); font-size: 1.4rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .3s; z-index: 201; }
+  .lb-prev { left: 1.5rem; }
+  .lb-next { right: 1.5rem; }
+  .lb-prev:hover, .lb-next:hover { background: rgba(212,144,10,.3); }
+
+  /* PLATFORM */
+  #platform { padding: 8rem 0; position: relative; z-index: 2; background: linear-gradient(135deg,var(--navy2) 0%,var(--navy) 100%); border-top: 1px solid rgba(212,144,10,.08); border-bottom: 1px solid rgba(212,144,10,.08); }
   #platform .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-  .platform-visual {
-    aspect-ratio: 4/3; background: var(--navy3);
-    border: 1px solid rgba(212,144,10,.15);
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-  }
-  .platform-visual::before {
-    content: ''; position: absolute; inset: 0;
-    background: repeating-linear-gradient(45deg,rgba(212,144,10,.03) 0,rgba(212,144,10,.03) 1px,transparent 1px,transparent 40px);
-  }
-  .platform-label-inner {
-    position: relative; z-index: 1; text-align: center;
-    display: flex; flex-direction: column; align-items: center; gap: 1rem;
-  }
-  .platform-icon-big {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 5rem; font-weight: 700; color: var(--amber); line-height: 1;
-  }
-  .platform-tag-inner {
-    font-family: 'DM Mono', monospace; font-size: .6rem;
-    letter-spacing: .25em; color: var(--slate); text-transform: uppercase;
-  }
+  .platform-visual { aspect-ratio: 4/3; background: var(--navy3); border: 1px solid rgba(212,144,10,.15); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .platform-visual::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,rgba(212,144,10,.03) 0,rgba(212,144,10,.03) 1px,transparent 1px,transparent 40px); }
+  .platform-label-inner { position: relative; z-index: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  .platform-icon-big { font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 700; color: var(--amber); line-height: 1; }
+  .platform-tag-inner { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .25em; color: var(--slate); text-transform: uppercase; }
   .platform-info { display: flex; flex-direction: column; gap: 1.8rem; }
   .platform-desc { font-size: .93rem; line-height: 1.85; color: var(--slate); }
   .platform-features { display: flex; flex-direction: column; gap: .8rem; }
   .feat { display: flex; align-items: flex-start; gap: .8rem; font-size: .82rem; color: var(--slate); }
   .feat-dot { width: 5px; height: 5px; background: var(--amber); border-radius: 50%; margin-top: .45rem; flex-shrink: 0; }
 
+  /* CONTACT */
   #contact { padding: 8rem 0 6rem; position: relative; z-index: 2; }
-  .contact-inner {
-    max-width: 720px; margin: 0 auto; text-align: center;
-    display: flex; flex-direction: column; align-items: center; gap: 2.5rem;
-  }
-  .contact-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 300; color: var(--white); line-height: 1.1;
-  }
+  .contact-inner { max-width: 720px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
+  .contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 300; color: var(--white); line-height: 1.1; }
   .contact-title em { font-style: italic; color: var(--amber2); }
   .contact-desc { font-size: .9rem; line-height: 1.8; color: var(--slate); max-width: 460px; }
-  .contact-email {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
-    color: var(--amber2); text-decoration: none; letter-spacing: .05em;
-    border-bottom: 1px solid rgba(212,144,10,.3); padding-bottom: .3rem;
-    transition: color .3s, border .3s;
-  }
+  .contact-email { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--amber2); text-decoration: none; letter-spacing: .05em; border-bottom: 1px solid rgba(212,144,10,.3); padding-bottom: .3rem; transition: color .3s, border .3s; }
   .contact-email:hover { color: var(--white); border-color: var(--white); }
 
-  footer {
-    padding: 2.5rem 2rem; border-top: 1px solid rgba(212,144,10,.08);
-    display: flex; justify-content: space-between; align-items: center;
-    position: relative; z-index: 2; flex-wrap: wrap; gap: 1rem;
-    max-width: 1140px; margin: 0 auto;
-  }
+  /* FOOTER */
+  footer { padding: 2.5rem 2rem; border-top: 1px solid rgba(212,144,10,.08); display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; flex-wrap: wrap; gap: 1rem; max-width: 1140px; margin: 0 auto; }
   .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: .95rem; color: var(--slate); letter-spacing: .08em; }
   .footer-credit { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: rgba(139,154,175,.4); text-transform: uppercase; }
 
+  /* SCROLL REVEAL */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .reveal-delay-1 { transition-delay: .1s; }
   .reveal-delay-2 { transition-delay: .2s; }
   .reveal-delay-3 { transition-delay: .3s; }
 
+  /* RESPONSIVE */
   @media (max-width: 900px) {
     #hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; text-align: center; }
     .hero-sub { max-width: 100%; }
@@ -366,10 +195,15 @@
     .hero-right { display: none; }
     #story .container { grid-template-columns: 1fr; gap: 3rem; }
     .research-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
     #platform .container { grid-template-columns: 1fr; gap: 3rem; }
     .nav-links { display: none; }
     .hamburger { display: flex; }
     footer { flex-direction: column; align-items: center; text-align: center; }
+    .lb-prev { left: .5rem; } .lb-next { right: .5rem; }
+  }
+  @media (max-width: 540px) {
+    .gallery-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -393,11 +227,13 @@
 </div>
 <div class="grain"></div>
 
+<!-- NAV -->
 <nav id="nav">
   <div class="nav-brand">Nobin Debnath</div>
   <ul class="nav-links">
     <li><a href="#story">Identity</a></li>
     <li><a href="#research">Research</a></li>
+    <li><a href="#gallery">Gallery</a></li>
     <li><a href="#platform">Platform</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -407,24 +243,20 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" id="mobileClose" aria-label="Close">&#x2715;</button>
+  <button class="mobile-close" id="mobileClose">&#x2715;</button>
   <a href="#story"    onclick="closeMobile()">Identity</a>
   <a href="#research" onclick="closeMobile()">Research</a>
+  <a href="#gallery"  onclick="closeMobile()">Gallery</a>
   <a href="#platform" onclick="closeMobile()">Platform</a>
   <a href="#contact"  onclick="closeMobile()">Contact</a>
 </div>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-left">
     <div class="hero-badge reveal">National Prize &mdash; Science &amp; Technology</div>
-    <h1 class="hero-title reveal reveal-delay-1">
-      <strong>Engineering</strong><br/>purpose<br/><em>into science.</em>
-    </h1>
-    <p class="hero-sub reveal reveal-delay-2">
-      Independent researcher and developer from Cumilla, Bangladesh.
-      Building solutions at the intersection of AI infrastructure,
-      sustainable materials, and humanitarian engineering.
-    </p>
+    <h1 class="hero-title reveal reveal-delay-1"><strong>Engineering</strong><br/>purpose<br/><em>into science.</em></h1>
+    <p class="hero-sub reveal reveal-delay-2">Independent researcher and developer from Cumilla, Bangladesh. Building solutions at the intersection of AI infrastructure, sustainable materials, and humanitarian engineering.</p>
     <div class="hero-cta reveal reveal-delay-3">
       <a href="#research" class="btn-primary">View Research &#x2197;</a>
       <a href="#contact"  class="btn-ghost">Get in Touch</a>
@@ -443,6 +275,7 @@
 
 <div class="divider"><span>Identity</span></div>
 
+<!-- STORY -->
 <section id="story">
   <div class="container">
     <div class="story-text">
@@ -450,70 +283,24 @@
         <div class="section-label">The Self-Built Classroom</div>
         <h2 class="section-title">Curiosity<br/>over <em>curriculum.</em></h2>
       </div>
-      <p class="story-body reveal reveal-delay-1">
-        I grew up in a system that measured success through memorization.
-        Curiosity was not rewarded; deviation was discouraged. For a long time,
-        I felt my real abilities existed entirely outside the classroom.
-      </p>
-      <blockquote class="story-quote reveal reveal-delay-2">
-        &ldquo;So I built my own classroom. Failures taught me to isolate variables,
-        document results, and begin again.&rdquo;
-      </blockquote>
-      <p class="story-body reveal reveal-delay-3">
-        Whether experimenting with jackfruit seeds at home or designing magnetic
-        safety systems for railway platforms &mdash; my path has been defined by the
-        resolve to follow purpose with courage, even without certainty or applause.
-      </p>
+      <p class="story-body reveal reveal-delay-1">I grew up in a system that measured success through memorization. Curiosity was not rewarded; deviation was discouraged. For a long time, I felt my real abilities existed entirely outside the classroom.</p>
+      <blockquote class="story-quote reveal reveal-delay-2">&ldquo;So I built my own classroom. Failures taught me to isolate variables, document results, and begin again.&rdquo;</blockquote>
+      <p class="story-body reveal reveal-delay-3">Whether experimenting with jackfruit seeds at home or designing magnetic safety systems for railway platforms &mdash; my path has been defined by the resolve to follow purpose with courage, even without certainty or applause.</p>
     </div>
     <div class="awards-grid">
-      <div class="award-item reveal">
-        <div class="award-num">&#9733;</div>
-        <div class="award-info">
-          <div class="award-title">National Prize for Excellence</div>
-          <div class="award-desc">National Science &amp; Technology Museum &mdash; Special Category, competing alongside leading scientists nationwide</div>
-        </div>
-      </div>
-      <div class="award-item reveal reveal-delay-1">
-        <div class="award-num">&times;2</div>
-        <div class="award-info">
-          <div class="award-title">1st Place &mdash; District Science Fair</div>
-          <div class="award-desc">Two-time district champion in science research</div>
-        </div>
-      </div>
-      <div class="award-item reveal reveal-delay-1">
-        <div class="award-num">1st</div>
-        <div class="award-info">
-          <div class="award-title">1st Place &mdash; Sub-district Science Fair</div>
-          <div class="award-desc">Regional science fair champion</div>
-        </div>
-      </div>
-      <div class="award-item reveal reveal-delay-2">
-        <div class="award-num">&empty;</div>
-        <div class="award-info">
-          <div class="award-title">Finalist &mdash; Bangladesh Physics Olympiad</div>
-          <div class="award-desc">National-level physics competition finalist</div>
-        </div>
-      </div>
-      <div class="award-item reveal reveal-delay-2">
-        <div class="award-num">&empty;</div>
-        <div class="award-info">
-          <div class="award-title">Finalist &mdash; National High School Programming Olympiad</div>
-          <div class="award-desc">National competitive programming finalist</div>
-        </div>
-      </div>
-      <div class="award-item reveal reveal-delay-3">
-        <div class="award-num">&empty;</div>
-        <div class="award-info">
-          <div class="award-title">Finalist &mdash; Bangladesh IQ Olympiad</div>
-          <div class="award-desc">National IQ Olympiad finalist</div>
-        </div>
-      </div>
+      <div class="award-item reveal"><div class="award-num">&#9733;</div><div class="award-info"><div class="award-title">National Prize for Excellence</div><div class="award-desc">National Science &amp; Technology Museum &mdash; Special Category, competing alongside leading scientists nationwide</div></div></div>
+      <div class="award-item reveal reveal-delay-1"><div class="award-num">&times;2</div><div class="award-info"><div class="award-title">1st Place &mdash; District Science Fair</div><div class="award-desc">Two-time district champion in science research</div></div></div>
+      <div class="award-item reveal reveal-delay-1"><div class="award-num">1st</div><div class="award-info"><div class="award-title">1st Place &mdash; Sub-district Science Fair</div><div class="award-desc">Regional science fair champion</div></div></div>
+      <div class="award-item reveal reveal-delay-2"><div class="award-num">&empty;</div><div class="award-info"><div class="award-title">Finalist &mdash; Bangladesh Physics Olympiad</div><div class="award-desc">National-level physics competition finalist</div></div></div>
+      <div class="award-item reveal reveal-delay-2"><div class="award-num">&empty;</div><div class="award-info"><div class="award-title">Finalist &mdash; National High School Programming Olympiad</div><div class="award-desc">National competitive programming finalist</div></div></div>
+      <div class="award-item reveal reveal-delay-3"><div class="award-num">&empty;</div><div class="award-info"><div class="award-title">Finalist &mdash; Bangladesh IQ Olympiad</div><div class="award-desc">National IQ Olympiad finalist</div></div></div>
     </div>
   </div>
 </section>
 
 <div class="divider"><span>Research</span></div>
 
+<!-- RESEARCH -->
 <section id="research">
   <div class="container">
     <div class="research-header reveal">
@@ -521,9 +308,7 @@
         <div class="section-label">Scientific Contributions</div>
         <h2 class="section-title">The Research <em>Archive</em></h2>
       </div>
-      <p style="font-size:.82rem;color:var(--slate);max-width:300px;text-align:right;line-height:1.7;font-style:italic;">
-        Three independent papers spanning transportation AI, food science, and materials engineering.
-      </p>
+      <p style="font-size:.82rem;color:var(--slate);max-width:300px;text-align:right;line-height:1.7;font-style:italic;">Three independent papers spanning transportation AI, food science, and materials engineering.</p>
     </div>
     <div class="research-grid">
 
@@ -533,15 +318,9 @@
         <div class="card-tag">National Prize</div>
         <h3 class="card-title">Smart Digital Railway Station</h3>
         <div class="card-sub">AI-Based Control &amp; Magnetic Safety</div>
-        <p class="card-desc">
-          A multi-layered framework integrating IoT sensing, AI overspeed prediction,
-          and electromagnetic safety modules to modernize transit infrastructure.
-          Awarded a national prize competing against leading scientists nationwide.
-        </p>
+        <p class="card-desc">A multi-layered framework integrating IoT sensing, AI overspeed prediction, and electromagnetic safety modules to modernize transit infrastructure. Awarded a national prize competing against leading scientists nationwide.</p>
         <div class="card-footer">Published &mdash; National Science &amp; Technology Museum Magazine</div>
-        <a class="pdf-btn"
-           href="./Smart%20Digital%20Railway%20Station%20with%20Integrated%20Magnetic%20Safety%20and%20AI%2011.pdf"
-           target="_blank" rel="noopener noreferrer">Read Full Paper &#x2197;</a>
+        <a class="pdf-btn" href="./Smart%20Digital%20Railway%20Station%20with%20Integrated%20Magnetic%20Safety%20and%20AI%2011.pdf" target="_blank" rel="noopener noreferrer">Read Full Paper &#x2197;</a>
       </div>
 
       <div class="research-card reveal reveal-delay-1">
@@ -550,15 +329,9 @@
         <div class="card-tag">Humanitarian</div>
         <h3 class="card-title">Jackfruit Seed Nutrition</h3>
         <div class="card-sub">Sustainable Food for Malnourished Communities</div>
-        <p class="card-desc">
-          Data-driven model proposing that discarded jackfruit seeds &mdash; 337.6 million kg
-          annually &mdash; could provide 1,200 kcal/day to over 533 million malnourished
-          children. Zero-oil preparation makes it viable for crisis zones.
-        </p>
+        <p class="card-desc">Data-driven model proposing that discarded jackfruit seeds &mdash; 337.6 million kg annually &mdash; could provide 1,200 kcal/day to over 533 million malnourished children. Zero-oil preparation makes it viable for crisis zones.</p>
         <div class="card-footer">Focus &mdash; Food Security &amp; Zero-waste Agriculture</div>
-        <a class="pdf-btn"
-           href="./Jackfruit%20Seed%20Utilization%20as%20a%20Sustainable%20Food%20Source%20for%20Malnourished%20Children%20and%20Communities%20(1).pdf"
-           target="_blank" rel="noopener noreferrer">Read Full Paper &#x2197;</a>
+        <a class="pdf-btn" href="./Jackfruit%20Seed%20Utilization%20as%20a%20Sustainable%20Food%20Source%20for%20Malnourished%20Children%20and%20Communities%20(1).pdf" target="_blank" rel="noopener noreferrer">Read Full Paper &#x2197;</a>
       </div>
 
       <div class="research-card reveal reveal-delay-2">
@@ -567,23 +340,177 @@
         <div class="card-tag">Materials Science</div>
         <h3 class="card-title">Ultra-Low-Cost Bio-Packaging</h3>
         <div class="card-sub">Jackfruit Waste &amp; Coconut Shell Biochar</div>
-        <p class="card-desc">
-          A biodegradable packaging bag costing &le; 1 BDT, engineered from jackfruit
-          seed starch and coconut shell biochar. Designed specifically for
-          developing markets as a viable alternative to single-use plastic.
-        </p>
+        <p class="card-desc">A biodegradable packaging bag costing &le; 1 BDT, engineered from jackfruit seed starch and coconut shell biochar. Designed specifically for developing markets as a viable alternative to single-use plastic.</p>
         <div class="card-footer">Field &mdash; Sustainable Engineering &amp; Environmental Chemistry</div>
-        <a class="pdf-btn"
-           href="./Development%20of%20an%20Ultra.pdf"
-           target="_blank" rel="noopener noreferrer">Read Full Paper &#x2197;</a>
+        <a class="pdf-btn" href="./Development%20of%20an%20Ultra.pdf" target="_blank" rel="noopener noreferrer">Read Full Paper &#x2197;</a>
       </div>
 
     </div>
   </div>
 </section>
 
+<div class="divider"><span>Gallery</span></div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="research-header reveal">
+      <div>
+        <div class="section-label">In The Field</div>
+        <h2 class="section-title">Where Ideas <em>Come Alive.</em></h2>
+      </div>
+      <p style="font-size:.82rem;color:var(--slate);max-width:320px;text-align:right;line-height:1.7;font-style:italic;">From club rooms and robot builds to national labs &mdash; a visual record of the work behind the work.</p>
+    </div>
+
+    <div class="gallery-filters reveal">
+      <button class="gf-btn active" data-filter="all">All</button>
+      <button class="gf-btn" data-filter="robotics">Science Club &amp; Robotics</button>
+      <button class="gf-btn" data-filter="fablab">Fab Lab &amp; NIKO</button>
+      <button class="gf-btn" data-filter="research">Research &amp; Seminars</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Science Club & Robotics -->
+      <div class="gallery-item reveal" data-cat="robotics">
+        <div class="gallery-img-wrap" data-src="./gallery-robotics-01.jpg" data-cap="HYDER &mdash; Bangladesh's first high school humanoid robot, built by our team">
+          <img src="./gallery-robotics-01.jpg" alt="HYDER Robot" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Robotics Club</span><p class="gcap-text">HYDER &mdash; Bangladesh&rsquo;s first high school humanoid robot, built by our team</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1" data-cat="robotics">
+        <div class="gallery-img-wrap" data-src="./gallery-robotics-02.jpg" data-cap="Our school science club room where it all began">
+          <img src="./gallery-robotics-02.jpg" alt="Science Club Room" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Robotics Club</span><p class="gcap-text">Our school science club room where it all began</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-2" data-cat="robotics">
+        <div class="gallery-img-wrap" data-src="./gallery-robotics-03.jpg" data-cap="Working with seniors and juniors on robotics projects">
+          <img src="./gallery-robotics-03.jpg" alt="Team Work" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Robotics Club</span><p class="gcap-text">Working with seniors and juniors on robotics projects</p></div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="robotics">
+        <div class="gallery-img-wrap" data-src="./gallery-robotics-04.jpg" data-cap="Project showcase and demonstration event">
+          <img src="./gallery-robotics-04.jpg" alt="Project Showcase" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Robotics Club</span><p class="gcap-text">Project showcase and demonstration event</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1" data-cat="robotics">
+        <div class="gallery-img-wrap" data-src="./gallery-robotics-05.jpg" data-cap="Seminar discussing real-world problem solving">
+          <img src="./gallery-robotics-05.jpg" alt="Seminar" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Robotics Club</span><p class="gcap-text">Seminar discussing real-world problem solving</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-2" data-cat="robotics">
+        <div class="gallery-img-wrap" data-src="./gallery-robotics-06.jpg" data-cap="Club activities and collaborative builds">
+          <img src="./gallery-robotics-06.jpg" alt="Club Activities" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Robotics Club</span><p class="gcap-text">Club activities and collaborative builds</p></div>
+      </div>
+
+      <!-- Fab Lab & NIKO -->
+      <div class="gallery-item reveal" data-cat="fablab">
+        <div class="gallery-img-wrap" data-src="./gallery-fablab-01.jpg" data-cap="Fab Lab at the DC Office, Cumilla &mdash; a space of inspiration">
+          <img src="./gallery-fablab-01.jpg" alt="Fab Lab" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">Fab Lab at the DC Office, Cumilla &mdash; a space of inspiration</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1" data-cat="fablab">
+        <div class="gallery-img-wrap" data-src="./gallery-fablab-02.jpg" data-cap="NIKO &mdash; the most advanced humanoid robot built at the Fab Lab">
+          <img src="./gallery-fablab-02.jpg" alt="NIKO Robot" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">NIKO &mdash; the most advanced humanoid robot built at the Fab Lab</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-2" data-cat="fablab">
+        <div class="gallery-img-wrap" data-src="./gallery-fablab-03.jpg" data-cap="Collaborating with Comilla University students at the lab">
+          <img src="./gallery-fablab-03.jpg" alt="Collaboration" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">Collaborating with Comilla University students at the lab</p></div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="fablab">
+        <div class="gallery-img-wrap" data-src="./gallery-fablab-04.jpg" data-cap="State-of-the-art equipment and tools at the lab">
+          <img src="./gallery-fablab-04.jpg" alt="Fab Lab Equipment" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">State-of-the-art equipment and tools at the lab</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1" data-cat="fablab">
+        <div class="gallery-img-wrap" data-src="./gallery-fablab-05.jpg" data-cap="Working alongside friends and researchers">
+          <img src="./gallery-fablab-05.jpg" alt="Team at Fab Lab" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">Working alongside friends and researchers</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-2" data-cat="fablab">
+        <div class="gallery-img-wrap" data-src="./gallery-fablab-06.jpg" data-cap="Projects and prototypes developed at the Fab Lab">
+          <img src="./gallery-fablab-06.jpg" alt="Fab Lab Projects" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">Projects and prototypes developed at the Fab Lab</p></div>
+      </div>
+
+      <!-- Research & Seminars -->
+      <div class="gallery-item reveal" data-cat="research">
+        <div class="gallery-img-wrap" data-src="./gallery-research-01.jpg" data-cap="Presenting at the National Science &amp; Technology event">
+          <img src="./gallery-research-01.jpg" alt="Presenting Research" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Research</span><p class="gcap-text">Presenting at the National Science &amp; Technology event</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1" data-cat="research">
+        <div class="gallery-img-wrap" data-src="./gallery-research-02.jpg" data-cap="District Science Fair &mdash; two-time champion">
+          <img src="./gallery-research-02.jpg" alt="Science Fair" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Science Fair</span><p class="gcap-text">District Science Fair &mdash; two-time champion</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-2" data-cat="research">
+        <div class="gallery-img-wrap" data-src="./gallery-research-03.jpg" data-cap="Discussing research and innovations at a seminar">
+          <img src="./gallery-research-03.jpg" alt="Seminar" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Seminar</span><p class="gcap-text">Discussing research and innovations at a seminar</p></div>
+      </div>
+
+      <div class="gallery-item reveal" data-cat="research">
+        <div class="gallery-img-wrap" data-src="./gallery-research-04.jpg" data-cap="Receiving the National Prize for Excellence">
+          <img src="./gallery-research-04.jpg" alt="Award Ceremony" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Award</span><p class="gcap-text">Receiving the National Prize for Excellence</p></div>
+      </div>
+
+      <div class="gallery-item reveal reveal-delay-1" data-cat="research">
+        <div class="gallery-img-wrap" data-src="./gallery-research-05.jpg" data-cap="Showcasing research projects to judges and scientists">
+          <img src="./gallery-research-05.jpg" alt="Project Showcase" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        </div>
+        <div class="gallery-caption"><span class="gcap-tag">Showcase</span><p class="gcap-text">Showcasing research projects to judges and scientists</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">&#x2715;</button>
+  <button class="lb-prev"  id="lbPrev">&#8592;</button>
+  <button class="lb-next"  id="lbNext">&#8594;</button>
+  <div class="lb-inner">
+    <img id="lbImg" src="" alt="" />
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+</div>
+
 <div class="divider"><span>Platform</span></div>
 
+<!-- PLATFORM -->
 <section id="platform">
   <div class="container">
     <div class="platform-visual reveal">
@@ -597,23 +524,14 @@
         <div class="section-label">Software Venture</div>
         <h2 class="section-title">Work as <em>Play.</em></h2>
       </div>
-      <p class="platform-desc reveal reveal-delay-1">
-        Applying the rigor of research to the fluidity of software.
-        <strong style="color:var(--cream);">Porimol&rsquo;s</strong> is an analytical gaming platform
-        built to sharpen cognitive and strategic thinking through carefully designed games.
-        Still being crafted &mdash; but already open for exploration.
-      </p>
+      <p class="platform-desc reveal reveal-delay-1">Applying the rigor of research to the fluidity of software. <strong style="color:var(--cream);">Porimol&rsquo;s</strong> is an analytical gaming platform built to sharpen cognitive and strategic thinking through carefully designed games. Still being crafted &mdash; but already open for exploration.</p>
       <div class="platform-features reveal reveal-delay-2">
         <div class="feat"><div class="feat-dot"></div><span>Games engineered to build analytical depth and strategic reasoning</span></div>
         <div class="feat"><div class="feat-dot"></div><span>Designed for long-form focus with eye-comfort interfaces</span></div>
         <div class="feat"><div class="feat-dot"></div><span>Actively in development &mdash; more coming soon</span></div>
       </div>
       <div class="reveal reveal-delay-3">
-        <a href="https://nobindebnath88888-hue.github.io/porimols/"
-           target="_blank" rel="noopener noreferrer"
-           class="btn-primary" style="width:fit-content;margin-top:.5rem;">
-          Visit Porimol&rsquo;s &#x2197;
-        </a>
+        <a href="https://nobindebnath88888-hue.github.io/porimols/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width:fit-content;margin-top:.5rem;">Visit Porimol&rsquo;s &#x2197;</a>
       </div>
     </div>
   </div>
@@ -621,6 +539,7 @@
 
 <div class="divider"><span>Contact</span></div>
 
+<!-- CONTACT -->
 <section id="contact">
   <div class="container">
     <div class="contact-inner">
@@ -628,18 +547,11 @@
         <div class="section-label" style="text-align:center;">Let&rsquo;s Collaborate</div>
         <h2 class="contact-title">Building the<br/><em>next breakthrough</em><br/>together.</h2>
       </div>
-      <p class="contact-desc reveal reveal-delay-1">
-        Open to research partnerships, academic collaborations,
-        and software projects. Based in Cumilla, Bangladesh &mdash;
-        working without borders.
-      </p>
-      <a href="mailto:nobindebnath88888@gmail.com" class="contact-email reveal reveal-delay-2">
-        nobindebnath88888@gmail.com
-      </a>
+      <p class="contact-desc reveal reveal-delay-1">Open to research partnerships, academic collaborations, and software projects. Based in Cumilla, Bangladesh &mdash; working without borders.</p>
+      <a href="mailto:nobindebnath88888@gmail.com" class="contact-email reveal reveal-delay-2">nobindebnath88888@gmail.com</a>
       <div class="reveal reveal-delay-3" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
         <a href="mailto:nobindebnath88888@gmail.com" class="btn-primary">Send an Email &#x2197;</a>
-        <a href="https://nobindebnath88888-hue.github.io/porimols/"
-           target="_blank" rel="noopener noreferrer" class="btn-ghost">Explore Porimol&rsquo;s</a>
+        <a href="https://nobindebnath88888-hue.github.io/porimols/" target="_blank" rel="noopener noreferrer" class="btn-ghost">Explore Porimol&rsquo;s</a>
       </div>
     </div>
   </div>
@@ -651,15 +563,10 @@
 </footer>
 
 <script>
-  // Profile photo fallback
-  var photo    = document.getElementById('profilePhoto');
+  // Profile photo
+  var photo = document.getElementById('profilePhoto');
   var fallback = document.getElementById('profileFallback');
-
-  function showFallback() {
-    photo.style.display    = 'none';
-    fallback.style.display = 'flex';
-  }
-
+  function showFallback() { photo.style.display = 'none'; fallback.style.display = 'flex'; }
   if (photo) {
     photo.addEventListener('error', showFallback);
     if (photo.complete && photo.naturalWidth === 0) showFallback();
@@ -667,27 +574,90 @@
 
   // Nav scroll
   var nav = document.getElementById('nav');
-  window.addEventListener('scroll', function () {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
+  window.addEventListener('scroll', function () { nav.classList.toggle('scrolled', window.scrollY > 60); });
 
   // Mobile menu
-  var hamburger   = document.getElementById('hamburger');
-  var mobileMenu  = document.getElementById('mobileMenu');
-  var mobileClose = document.getElementById('mobileClose');
-
-  hamburger.addEventListener('click',   function () { mobileMenu.classList.add('open'); });
-  mobileClose.addEventListener('click', closeMobile);
-  function closeMobile() { mobileMenu.classList.remove('open'); }
+  document.getElementById('hamburger').addEventListener('click', function () { document.getElementById('mobileMenu').classList.add('open'); });
+  document.getElementById('mobileClose').addEventListener('click', closeMobile);
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
 
   // Scroll reveal
   var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.12 });
-
+    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+
+  // Gallery filter
+  var allItems = Array.from(document.querySelectorAll('.gallery-item'));
+  document.querySelectorAll('.gf-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.gf-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.dataset.filter;
+      allItems.forEach(function (item) {
+        if (filter === 'all' || item.dataset.cat === filter) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Lightbox
+  var lightbox  = document.getElementById('lightbox');
+  var lbImg     = document.getElementById('lbImg');
+  var lbCaption = document.getElementById('lbCaption');
+  var visibleItems = [];
+  var currentIdx = 0;
+
+  function openLightbox(wrap) {
+    visibleItems = allItems.filter(function (i) { return !i.classList.contains('hidden'); });
+    var wraps = visibleItems.map(function (i) { return i.querySelector('.gallery-img-wrap'); });
+    currentIdx = wraps.indexOf(wrap);
+    showLbImage(currentIdx);
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showLbImage(idx) {
+    var wraps = visibleItems.map(function (i) { return i.querySelector('.gallery-img-wrap'); });
+    var w = wraps[idx];
+    lbImg.src = w.dataset.src;
+    lbCaption.innerHTML = w.dataset.cap || '';
+  }
+
+  document.querySelectorAll('.gallery-img-wrap').forEach(function (wrap) {
+    wrap.addEventListener('click', function () { openLightbox(wrap); });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', function () {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+
+  document.getElementById('lbPrev').addEventListener('click', function () {
+    currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+    showLbImage(currentIdx);
+  });
+
+  document.getElementById('lbNext').addEventListener('click', function () {
+    currentIdx = (currentIdx + 1) % visibleItems.length;
+    showLbImage(currentIdx);
+  });
+
+  // Close lightbox on background click
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+    if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length; showLbImage(currentIdx); }
+    if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % visibleItems.length; showLbImage(currentIdx); }
+  });
 </script>
 </body>
 </html>
