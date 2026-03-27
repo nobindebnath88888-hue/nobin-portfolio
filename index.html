@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nobin Debnath — Researcher & Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #080C18;
+    --navy2:   #0E1525;
+    --navy3:   #151E33;
+    --amber:   #D4900A;
+    --amber2:  #F0AB2A;
+    --cream:   #F0E6CE;
+    --cream2:  #E8D9B8;
+    --terra:   #B85C2A;
+    --slate:   #8B9AAF;
+    --white:   #FAF7F2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── Custom cursor ── */
+  .cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    width: 10px; height: 10px;
+    background: var(--amber2);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%,-50%);
+    transition: transform .1s ease, width .3s, height .3s, opacity .3s;
+  }
+  .cursor-ring {
+    position: fixed; top: 0; left: 0; z-index: 9998;
+    width: 36px; height: 36px;
+    border: 1px solid var(--amber);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%,-50%);
+    transition: transform .18s ease, width .3s, height .3s, opacity .3s;
+    opacity: .5;
+  }
+  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height: 18px; }
+  body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 54px; height: 54px; opacity: .2; }
+
+  /* ── Geometric background pattern ── */
+  .bg-pattern {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  }
+  .bg-pattern svg { width: 100%; height: 100%; opacity: .04; }
+
+  /* ── Grain overlay ── */
+  .grain {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: .025;
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.5rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background .4s, border .4s;
+  }
+  nav.scrolled {
+    background: rgba(8,12,24,.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(212,144,10,.12);
+  }
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600; letter-spacing: .12em;
+    color: var(--amber2); text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .72rem; font-weight: 500; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--slate);
+    text-decoration: none; transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--amber2); }
+
+  /* ── Hamburger ── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--cream); transition: .3s; }
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 99;
+    background: rgba(8,12,24,.97); backdrop-filter: blur(20px);
+    flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 300; color: var(--cream);
+    text-decoration: none; letter-spacing: .08em; transition: color .3s;
+  }
+  .mobile-menu a:hover { color: var(--amber2); }
+  .mobile-close {
+    position: absolute; top: 1.8rem; right: 2rem;
+    font-size: 1.8rem; color: var(--slate); cursor: pointer; transition: color .3s;
+  }
+  .mobile-close:hover { color: var(--white); }
+
+  /* ── Hero ── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 4rem;
+    padding: 8rem 2rem 4rem;
+    max-width: 1140px; margin: 0 auto; position: relative; z-index: 2;
+  }
+  .hero-left { display: flex; flex-direction: column; gap: 2rem; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: .4rem 1rem; border: 1px solid rgba(212,144,10,.35);
+    background: rgba(212,144,10,.07); border-radius: 2px;
+    font-size: .65rem; font-weight: 500; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--amber2);
+    width: fit-content;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--amber2); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-weight: 300; line-height: 1.02;
+    color: var(--white); letter-spacing: -.01em;
+  }
+  .hero-title em { font-style: italic; color: var(--amber2); }
+  .hero-title strong { font-weight: 700; }
+
+  .hero-sub {
+    font-size: .95rem; line-height: 1.8; color: var(--slate);
+    max-width: 420px; font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: .85rem 2rem; background: var(--amber);
+    color: var(--navy); font-size: .78rem; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+    border: none; cursor: pointer; transition: background .3s, transform .3s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover { background: var(--amber2); transform: translateY(-2px); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: .85rem 2rem; background: transparent;
+    border: 1px solid rgba(212,144,10,.3); color: var(--amber2);
+    font-size: .78rem; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; text-decoration: none; cursor: pointer;
+    transition: border .3s, background .3s, transform .3s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-ghost:hover { border-color: var(--amber2); background: rgba(212,144,10,.07); transform: translateY(-2px); }
+
+  /* ── Profile card ── */
+  .hero-right { display: flex; justify-content: center; align-items: center; }
+  .profile-frame {
+    position: relative; width: 340px; height: 420px;
+  }
+  .profile-frame::before {
+    content: ''; position: absolute;
+    top: -16px; right: -16px; bottom: 16px; left: 16px;
+    border: 1px solid rgba(212,144,10,.25); z-index: 0;
+  }
+  .profile-frame::after {
+    content: ''; position: absolute;
+    top: 16px; right: 16px; bottom: -16px; left: -16px;
+    border: 1px solid rgba(212,144,10,.1); z-index: 0;
+  }
+  .profile-img {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+    background: var(--navy3);
+    overflow: hidden;
+  }
+  .profile-img img { width:100%; height:100%; object-fit:cover; filter: sepia(.15) contrast(1.05); }
+  .profile-initials {
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant Garamond',serif; font-size:6rem; font-weight:700;
+    color:var(--amber); letter-spacing:-.05em;
+  }
+  .profile-tag {
+    position: absolute; bottom: -1rem; left: -1rem; z-index: 2;
+    background: var(--amber); color: var(--navy);
+    padding: .6rem 1.2rem; font-size: .68rem; font-weight: 600;
+    letter-spacing: .15em; text-transform: uppercase;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 1.5rem;
+    max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+    opacity: .3;
+  }
+  .divider::before,.divider::after {
+    content:''; flex:1; height:1px; background:var(--amber);
+  }
+  .divider span {
+    font-family:'DM Mono',monospace; font-size:.6rem;
+    letter-spacing:.3em; color:var(--amber2); text-transform:uppercase;
+  }
+
+  /* ── Section labels ── */
+  .section-label {
+    font-family:'DM Mono',monospace; font-size:.62rem; font-weight:500;
+    letter-spacing:.3em; text-transform:uppercase; color:var(--amber);
+    margin-bottom:.8rem;
+  }
+  .section-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.2rem,4.5vw,3.4rem);
+    font-weight:300; color:var(--white); line-height:1.1;
+  }
+  .section-title em { font-style:italic; color:var(--amber2); }
+
+  /* ── Story section ── */
+  #story { padding: 8rem 0; position: relative; z-index: 2; }
+  #story .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .story-text { display: flex; flex-direction: column; gap: 1.6rem; }
+  .story-body {
+    font-size: .95rem; line-height: 1.9; color: var(--slate); font-weight: 300;
+  }
+  .story-quote {
+    border-left: 2px solid var(--amber); padding-left: 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem; font-style: italic; font-weight: 300;
+    color: var(--cream); line-height: 1.5;
+  }
+  .awards-grid { display: flex; flex-direction: column; gap: 1rem; }
+  .award-item {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(212,144,10,.12);
+    background: rgba(212,144,10,.03);
+    transition: border .3s, background .3s, transform .3s;
+  }
+  .award-item:hover {
+    border-color: rgba(212,144,10,.35);
+    background: rgba(212,144,10,.06);
+    transform: translateX(6px);
+  }
+  .award-num {
+    font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:700;
+    color:var(--amber); line-height:1; min-width:2.5rem;
+  }
+  .award-info { display:flex; flex-direction:column; gap:.3rem; }
+  .award-title { font-size:.82rem; font-weight:500; color:var(--white); }
+  .award-desc { font-size:.72rem; color:var(--slate); letter-spacing:.05em; }
+
+  /* ── Research section ── */
+  #research { padding: 8rem 0; position: relative; z-index: 2; }
+  .research-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap;
+  }
+  .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; }
+  .research-card {
+    background: var(--navy2); padding: 2.5rem 2rem;
+    border: 1px solid rgba(212,144,10,.08);
+    display: flex; flex-direction: column; gap: 1.2rem;
+    transition: border .3s, background .3s, transform .3s;
+    position: relative; overflow: hidden;
+  }
+  .research-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--amber), transparent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .research-card:hover { border-color: rgba(212,144,10,.3); background: var(--navy3); transform: translateY(-4px); }
+  .research-card:hover::before { transform: scaleX(1); }
+
+  .card-num {
+    font-family:'DM Mono',monospace; font-size:.6rem;
+    color:var(--amber); letter-spacing:.2em;
+  }
+  .card-icon {
+    width:44px; height:44px; border:1px solid rgba(212,144,10,.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem;
+  }
+  .card-tag {
+    display:inline-block; padding:.2rem .7rem;
+    border:1px solid rgba(212,144,10,.2); font-size:.6rem;
+    letter-spacing:.2em; text-transform:uppercase;
+    color:var(--amber2); width:fit-content; font-family:'DM Mono',monospace;
+  }
+  .card-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.5rem; font-weight:600; color:var(--white); line-height:1.2;
+  }
+  .card-sub { font-size:.75rem; color:var(--amber); letter-spacing:.06em; font-weight:500; }
+  .card-desc { font-size:.82rem; line-height:1.75; color:var(--slate); flex-grow:1; }
+  .card-footer {
+    padding-top:1rem; border-top:1px solid rgba(212,144,10,.1);
+    font-size:.68rem; color:var(--slate); font-style:italic;
+    font-family:'Cormorant Garamond',serif;
+  }
+
+  /* ── Platform section ── */
+  #platform {
+    padding: 8rem 0; position: relative; z-index: 2;
+    background: linear-gradient(135deg, var(--navy2) 0%, var(--navy) 100%);
+    border-top: 1px solid rgba(212,144,10,.08);
+    border-bottom: 1px solid rgba(212,144,10,.08);
+  }
+  #platform .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .platform-visual {
+    aspect-ratio: 4/3; background: var(--navy3);
+    border: 1px solid rgba(212,144,10,.15);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .platform-visual::before {
+    content:''; position:absolute; inset:0;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(212,144,10,.03) 0, rgba(212,144,10,.03) 1px,
+      transparent 1px, transparent 40px
+    );
+  }
+  .platform-label-inner {
+    position:relative; z-index:1; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:1rem;
+  }
+  .platform-icon-big {
+    font-family:'Cormorant Garamond',serif;
+    font-size:5rem; font-weight:700; color:var(--amber);
+    line-height:1; letter-spacing:-.05em;
+  }
+  .platform-tag-inner {
+    font-family:'DM Mono',monospace; font-size:.6rem;
+    letter-spacing:.25em; color:var(--slate); text-transform:uppercase;
+  }
+  .platform-info { display:flex; flex-direction:column; gap:1.8rem; }
+  .platform-desc { font-size:.93rem; line-height:1.85; color:var(--slate); }
+  .platform-features { display:flex; flex-direction:column; gap:.8rem; }
+  .feat {
+    display:flex; align-items:flex-start; gap:.8rem;
+    font-size:.82rem; color:var(--slate);
+  }
+  .feat-dot {
+    width:5px; height:5px; background:var(--amber); border-radius:50%;
+    margin-top:.45rem; flex-shrink:0;
+  }
+
+  /* ── Contact ── */
+  #contact { padding: 8rem 0 6rem; position: relative; z-index: 2; }
+  .contact-inner {
+    max-width:720px; margin:0 auto; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:2.5rem;
+  }
+  .contact-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.5rem,5vw,4rem);
+    font-weight:300; color:var(--white); line-height:1.1;
+  }
+  .contact-title em { font-style:italic; color:var(--amber2); }
+  .contact-desc { font-size:.9rem; line-height:1.8; color:var(--slate); max-width:460px; }
+  .contact-email {
+    font-family:'Cormorant Garamond',serif; font-size:1.6rem;
+    color:var(--amber2); text-decoration:none; letter-spacing:.05em;
+    border-bottom:1px solid rgba(212,144,10,.3); padding-bottom:.3rem;
+    transition:color .3s, border .3s;
+  }
+  .contact-email:hover { color:var(--white); border-color:var(--white); }
+
+  /* ── Footer ── */
+  footer {
+    padding:2.5rem 2rem; border-top:1px solid rgba(212,144,10,.08);
+    display:flex; justify-content:space-between; align-items:center;
+    position:relative; z-index:2; flex-wrap:wrap; gap:1rem;
+    max-width:1140px; margin:0 auto;
+  }
+  .footer-brand {
+    font-family:'Cormorant Garamond',serif; font-size:.95rem;
+    color:var(--slate); letter-spacing:.08em;
+  }
+  .footer-credit {
+    font-family:'DM Mono',monospace; font-size:.6rem;
+    letter-spacing:.2em; color:rgba(139,154,175,.4); text-transform:uppercase;
+  }
+
+  /* ── Scroll reveal ── */
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1 { transition-delay:.1s; }
+  .reveal-delay-2 { transition-delay:.2s; }
+  .reveal-delay-3 { transition-delay:.3s; }
+  .reveal-delay-4 { transition-delay:.4s; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns:1fr; padding:7rem 2rem 4rem; text-align:center; }
+    .hero-sub { max-width:100%; }
+    .hero-cta { justify-content:center; }
+    .hero-right { display:none; }
+    #story .container { grid-template-columns:1fr; gap:3rem; }
+    .research-grid { grid-template-columns:1fr; }
+    #platform .container { grid-template-columns:1fr; gap:3rem; }
+    .nav-links { display:none; }
+    .hamburger { display:flex; }
+    footer { flex-direction:column; align-items:center; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Background geometric pattern -->
+<div class="bg-pattern">
+  <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="200" x2="1200" y2="200" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="0" y1="400" x2="1200" y2="400" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="0" y1="600" x2="1200" y2="600" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="200" y1="0" x2="200" y2="800" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="400" y1="0" x2="400" y2="800" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="600" y1="0" x2="600" y2="800" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="800" y1="0" x2="800" y2="800" stroke="#D4900A" stroke-width=".5"/>
+    <line x1="1000" y1="0" x2="1000" y2="800" stroke="#D4900A" stroke-width=".5"/>
+    <circle cx="600" cy="400" r="300" stroke="#D4900A" stroke-width=".5"/>
+    <circle cx="600" cy="400" r="180" stroke="#D4900A" stroke-width=".5"/>
+    <polygon points="600,80 880,580 320,580" stroke="#D4900A" stroke-width=".5"/>
+    <polygon points="600,720 320,220 880,220" stroke="#D4900A" stroke-width=".5"/>
+  </svg>
+</div>
+<div class="grain"></div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <div class="nav-brand">Nobin Debnath</div>
+  <ul class="nav-links">
+    <li><a href="#story">Identity</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#platform">Platform</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <span class="mobile-close" id="mobileClose">✕</span>
+  <a href="#story" onclick="closeMobile()">Identity</a>
+  <a href="#research" onclick="closeMobile()">Research</a>
+  <a href="#platform" onclick="closeMobile()">Platform</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge reveal">National Prize — Science & Technology</div>
+    <h1 class="hero-title reveal reveal-delay-1">
+      <strong>Engineering</strong><br/>
+      purpose<br/>
+      <em>into science.</em>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Independent researcher and developer from Cumilla, Bangladesh.
+      Building solutions at the intersection of AI infrastructure,
+      sustainable materials, and humanitarian engineering.
+    </p>
+    <div class="hero-cta reveal reveal-delay-3">
+      <a href="#research" class="btn-primary">View Research ↗</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right reveal reveal-delay-2">
+    <div class="profile-frame">
+      <div class="profile-img" id="profileImg">
+        <img src="./profile.jpg" alt="Nobin Debnath" onerror="this.parentElement.innerHTML='<div class=\'profile-initials\'>ND</div>'" />
+      </div>
+      <div class="profile-tag">Independent Researcher</div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider"><span>Identity</span></div>
+
+<!-- Story & Awards -->
+<section id="story">
+  <div class="container">
+    <div class="story-text">
+      <div class="reveal">
+        <div class="section-label">The Self-Built Classroom</div>
+        <h2 class="section-title">Curiosity<br/>over <em>curriculum.</em></h2>
+      </div>
+      <p class="story-body reveal reveal-delay-1">
+        I grew up in a system that measured success through memorization.
+        Curiosity was not rewarded; deviation was discouraged. For a long time,
+        I felt my real abilities existed entirely outside the classroom.
+      </p>
+      <blockquote class="story-quote reveal reveal-delay-2">
+        "So I built my own classroom. Failures taught me to isolate variables,
+        document results, and begin again."
+      </blockquote>
+      <p class="story-body reveal reveal-delay-3">
+        Whether experimenting with jackfruit seeds at home or designing magnetic
+        safety systems for railway platforms — my path has been defined by the
+        resolve to follow purpose with courage, even without certainty or applause.
+      </p>
+    </div>
+    <div class="awards-grid reveal reveal-delay-1">
+      <div class="award-item">
+        <div class="award-num">★</div>
+        <div class="award-info">
+          <div class="award-title">National Prize for Excellence</div>
+          <div class="award-desc">National Science & Technology Museum — Special Category, competing alongside senior scientists nationwide</div>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-num">×2</div>
+        <div class="award-info">
+          <div class="award-title">1st Place — District Science Fair</div>
+          <div class="award-desc">Two-time district champion in science research</div>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-num">1st</div>
+        <div class="award-info">
+          <div class="award-title">1st Place — Sub-district Science Fair</div>
+          <div class="award-desc">Regional science fair champion</div>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-num">∅</div>
+        <div class="award-info">
+          <div class="award-title">Finalist — Bangladesh Physics Olympiad</div>
+          <div class="award-desc">National Physics Olympiad finalist</div>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-num">∅</div>
+        <div class="award-info">
+          <div class="award-title">Finalist — National High School Programming Olympiad</div>
+          <div class="award-desc">National-level competitive programming finalist</div>
+        </div>
+      </div>
+      <div class="award-item">
+        <div class="award-num">∅</div>
+        <div class="award-info">
+          <div class="award-title">Finalist — Bangladesh IQ Olympiad</div>
+          <div class="award-desc">National IQ Olympiad finalist</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider"><span>Research</span></div>
+
+<!-- Research -->
+<section id="research">
+  <div class="container">
+    <div class="research-header reveal">
+      <div>
+        <div class="section-label">Scientific Contributions</div>
+        <h2 class="section-title">The Research <em>Archive</em></h2>
+      </div>
+      <p style="font-size:.82rem;color:var(--slate);max-width:300px;text-align:right;line-height:1.7;font-style:italic;">
+        Three independent papers spanning transportation AI, food science, and materials engineering.
+      </p>
+    </div>
+    <div class="research-grid">
+      <div class="research-card reveal">
+        <div class="card-num">PAPER 01 / 03</div>
+        <div class="card-icon">🚄</div>
+        <div class="card-tag">National Prize</div>
+        <h3 class="card-title">Smart Digital Railway Station</h3>
+        <div class="card-sub">AI-Based Control & Magnetic Safety</div>
+        <p class="card-desc">
+          A multi-layered framework integrating IoT sensing, AI overspeed prediction,
+          and electromagnetic safety modules to modernize transit infrastructure.
+          Awarded a national prize competing against leading scientists nationwide.
+        </p>
+        <div class="card-footer">Published — National Science & Technology Museum Magazine</div>
+      </div>
+      <div class="research-card reveal reveal-delay-1">
+        <div class="card-num">PAPER 02 / 03</div>
+        <div class="card-icon">🌱</div>
+        <div class="card-tag">Humanitarian</div>
+        <h3 class="card-title">Jackfruit Seed Nutrition</h3>
+        <div class="card-sub">Sustainable Food for Malnourished Communities</div>
+        <p class="card-desc">
+          Data-driven model proposing that discarded jackfruit seeds — 337.6 million kg
+          annually — could provide 1,200 kcal/day to over 533 million malnourished
+          children. Zero-oil preparation makes it viable for crisis zones.
+        </p>
+        <div class="card-footer">Focus — Food Security & Zero-waste Agriculture</div>
+      </div>
+      <div class="research-card reveal reveal-delay-2">
+        <div class="card-num">PAPER 03 / 03</div>
+        <div class="card-icon">♻️</div>
+        <div class="card-tag">Materials Science</div>
+        <h3 class="card-title">Ultra-Low-Cost Bio-Packaging</h3>
+        <div class="card-sub">Jackfruit Waste & Coconut Shell Biochar</div>
+        <p class="card-desc">
+          A biodegradable packaging bag costing ≤ 1 BDT, engineered from jackfruit
+          seed starch and coconut shell biochar. Designed specifically for
+          developing markets as a viable alternative to single-use plastic.
+        </p>
+        <div class="card-footer">Field — Sustainable Engineering & Environmental Chemistry</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider"><span>Platform</span></div>
+
+<!-- Platform -->
+<section id="platform">
+  <div class="container">
+    <div class="platform-visual reveal">
+      <div class="platform-label-inner">
+        <div class="platform-icon-big">P</div>
+        <div class="platform-tag-inner">Porimol's — Analytical Gaming Platform</div>
+      </div>
+    </div>
+    <div class="platform-info">
+      <div class="reveal">
+        <div class="section-label">Software Venture</div>
+        <h2 class="section-title">Work as <em>Play.</em></h2>
+      </div>
+      <p class="platform-desc reveal reveal-delay-1">
+        Applying the rigor of research to the fluidity of software.
+        <strong style="color:var(--cream)">Porimol's</strong> is an analytical gaming platform
+        built to sharpen cognitive and strategic thinking through carefully designed games.
+        Still being crafted — but already open for exploration.
+      </p>
+      <div class="platform-features reveal reveal-delay-2">
+        <div class="feat"><div class="feat-dot"></div><span>Games engineered to build analytical depth and strategic reasoning</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Designed for long-form focus with eye-comfort interfaces</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Actively in development — more coming soon</span></div>
+      </div>
+      <div class="reveal reveal-delay-3">
+        <a href="https://nobindebnath88888-hue.github.io/porimols/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width:fit-content;margin-top:.5rem;">
+          Visit Porimol's ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="divider"><span>Contact</span></div>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="reveal">
+        <div class="section-label" style="text-align:center;">Let's Collaborate</div>
+        <h2 class="contact-title">
+          Building the<br/><em>next breakthrough</em><br/>together.
+        </h2>
+      </div>
+      <p class="contact-desc reveal reveal-delay-1">
+        Open to research partnerships, academic collaborations,
+        and software projects. Based in Cumilla, Bangladesh —
+        working without borders.
+      </p>
+      <a href="mailto:nobindebnath88888@gmail.com" class="contact-email reveal reveal-delay-2">
+        nobindebnath88888@gmail.com
+      </a>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+        <a href="mailto:nobindebnath88888@gmail.com" class="btn-primary">Send an Email ↗</a>
+        <a href="https://nobindebnath88888-hue.github.io/porimols/" target="_blank" rel="noopener noreferrer" class="btn-ghost">Explore Porimol's</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">Nobin Debnath — Cumilla, Bangladesh</div>
+  <div class="footer-credit">Engineered with Integrity · 2026</div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top  = e.clientY + 'px';
+    }, 60);
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  hamburger.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', closeMobile);
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
