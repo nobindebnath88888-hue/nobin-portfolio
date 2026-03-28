@@ -70,8 +70,8 @@
   .profile-frame::before { content: ''; position: absolute; top: -16px; right: -16px; bottom: 16px; left: 16px; border: 1px solid rgba(212,144,10,.25); z-index: 0; }
   .profile-frame::after  { content: ''; position: absolute; top: 16px; right: 16px; bottom: -16px; left: -16px; border: 1px solid rgba(212,144,10,.1); z-index: 0; }
   .profile-img { position: relative; z-index: 1; width: 100%; height: 100%; background: var(--navy3); overflow: hidden; }
-  .profile-img img { width: 100%; height: 100%; object-fit: cover; filter: sepia(.15) contrast(1.05); display: block; }
-  .profile-initials { width: 100%; height: 100%; display: none; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 700; color: var(--amber); }
+  .profile-img img { width: 100%; height: 100%; object-fit: cover; filter: sepia(.15) contrast(1.05); display: none; }
+  .profile-initials { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 700; color: var(--amber); }
   .profile-tag { position: absolute; bottom: -1rem; left: -1rem; z-index: 2; background: var(--amber); color: var(--navy); padding: .6rem 1.2rem; font-size: .68rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
 
   /* DIVIDER */
@@ -135,7 +135,12 @@
   .exp-hl-text { font-size: .82rem; line-height: 1.7; color: var(--slate); }
   .exp-tags-row { display: flex; flex-wrap: wrap; gap: .5rem; }
   .exp-pill { padding: .25rem .8rem; border: 1px solid rgba(212,144,10,.2); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: var(--slate); font-family: 'DM Mono', monospace; }
-  @media (max-width: 900px) { .exp-grid { grid-template-columns: 1fr; } }
+  .exp-rocker-inner { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; align-items: start; }
+  .exp-rocker-img { aspect-ratio: 4/3; background: var(--navy3); border: 1px solid rgba(212,144,10,.15); overflow: hidden; position: relative; }
+  .exp-rocker-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .exp-rocker-text { display: flex; flex-direction: column; gap: 1.2rem; }
+  .exp-card-full { grid-column: 1 / -1; }
+  @media (max-width: 900px) { .exp-grid { grid-template-columns: 1fr; } .exp-card-full { grid-column: 1; } .exp-rocker-inner { grid-template-columns: 1fr; } }
 
   /* GALLERY */ padding: 8rem 0; position: relative; z-index: 2; }
   .gallery-filters { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 3rem; }
@@ -212,7 +217,8 @@
     #hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; text-align: center; }
     .hero-sub { max-width: 100%; }
     .hero-cta { justify-content: center; }
-    .hero-right { display: none; }
+    .hero-right { display: flex; justify-content: center; margin-bottom: 2rem; order: -1; }
+    .profile-frame { width: 220px; height: 270px; }
     #story .container { grid-template-columns: 1fr; gap: 3rem; }
     .research-grid { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2,1fr); }
@@ -276,15 +282,15 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-left">
-    <div class="hero-badge reveal">National Prize &mdash; Science &amp; Technology</div>
-    <h1 class="hero-title reveal reveal-delay-1"><strong>Engineering</strong><br/>purpose<br/><em>into science.</em></h1>
-    <p class="hero-sub reveal reveal-delay-2">Independent researcher and developer from Cumilla, Bangladesh. Building solutions at the intersection of AI infrastructure, sustainable materials, and humanitarian engineering.</p>
-    <div class="hero-cta reveal reveal-delay-3">
+    <div class="hero-badge">National Prize &mdash; Science &amp; Technology</div>
+    <h1 class="hero-title"><strong>Engineering</strong><br/>purpose<br/><em>into science.</em></h1>
+    <p class="hero-sub">Independent researcher and developer from Cumilla, Bangladesh. Building solutions at the intersection of AI infrastructure, sustainable materials, and humanitarian engineering.</p>
+    <div class="hero-cta">
       <a href="#research" class="btn-primary">View Research &#x2197;</a>
       <a href="#contact"  class="btn-ghost">Get in Touch</a>
     </div>
   </div>
-  <div class="hero-right reveal reveal-delay-2">
+  <div class="hero-right">
     <div class="profile-frame">
       <div class="profile-img">
         <img src="./profile.jpg" alt="Nobin Debnath" id="profilePhoto" />
@@ -334,8 +340,10 @@
         Real labs, real teams, real robots &mdash; the collaborative work that shaped the researcher.
       </p>
     </div>
+
     <div class="exp-grid">
 
+      <!-- Card 1: Science Club -->
       <div class="exp-card reveal">
         <div class="exp-header">
           <div class="exp-icon">&#129302;</div>
@@ -350,7 +358,9 @@
         </p>
         <div class="exp-highlight">
           <div class="exp-hl-label">&#128313; Key Project</div>
-          <div class="exp-hl-text"><strong style="color:var(--white);">HYDER</strong> &mdash; A humanoid robot built entirely as a student team effort. Designed, assembled, and programmed collaboratively by club members across different year groups.</div>
+          <div class="exp-hl-text">
+            <strong style="color:var(--white);">HYDER</strong> &mdash; A humanoid robot built entirely as a student team effort. Designed, assembled, and programmed collaboratively by club members across different year groups.
+          </div>
         </div>
         <div class="exp-tags-row">
           <span class="exp-pill">Robotics</span>
@@ -360,6 +370,7 @@
         </div>
       </div>
 
+      <!-- Card 2: Fab Lab -->
       <div class="exp-card reveal reveal-delay-2">
         <div class="exp-header">
           <div class="exp-icon">&#127981;</div>
@@ -374,13 +385,52 @@
         </p>
         <div class="exp-highlight">
           <div class="exp-hl-label">&#128313; Key Project</div>
-          <div class="exp-hl-text"><strong style="color:var(--white);">NIKO</strong> &mdash; One of Bangladesh&rsquo;s most advanced humanoid robots, developed at the Fab Lab. Contributed to the project and witnessed firsthand the full engineering process from prototype to completion.</div>
+          <div class="exp-hl-text">
+            <strong style="color:var(--white);">NIKO</strong> &mdash; One of Bangladesh&rsquo;s most advanced humanoid robots, developed at the Fab Lab. Contributed to the project and witnessed firsthand the full engineering process from prototype to completion.
+          </div>
         </div>
         <div class="exp-tags-row">
           <span class="exp-pill">Advanced Robotics</span>
           <span class="exp-pill">Fab Lab</span>
           <span class="exp-pill">University Collaboration</span>
           <span class="exp-pill">Prototyping</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Rocker Boogie (full width) -->
+      <div class="exp-card exp-card-full reveal">
+        <div class="exp-header">
+          <div class="exp-icon">&#128293;</div>
+          <div class="exp-meta">
+            <div class="exp-tag">Team Project &mdash; 2nd Prize, Sub-district</div>
+            <h3 class="exp-title">Fire Fighter Rocker Boogie</h3>
+            <p class="exp-org">Co-creator &amp; Engineer</p>
+          </div>
+        </div>
+        <div class="exp-rocker-inner">
+          <div class="exp-rocker-img" id="rockerImgWrap">
+            <img src="./rocker-boogie.jpg" alt="Fire Fighter Rocker Boogie Robot" id="rockerImg" />
+            <div class="img-placeholder" id="rockerFallback" style="display:none;">&#128247;</div>
+          </div>
+          <div class="exp-rocker-text">
+            <p class="exp-desc">
+              A team-built firefighting and rescue robot designed for extreme terrain. The Rocker Boogie mechanism &mdash; inspired by Mars rover engineering &mdash; allows the robot to navigate smoothly across rubble, rocky mountain paths, and uneven disaster zones where conventional wheels would fail.
+            </p>
+            <div class="exp-highlight">
+              <div class="exp-hl-label">&#128313; Key Capabilities</div>
+              <div class="exp-hl-text">
+                Equipped with <strong style="color:var(--white);">automatic fire detection sensors</strong> that locate a fire source and trigger the extinguishing system autonomously. Built to assist firefighters in rescue missions in environments too dangerous or inaccessible for humans.
+              </div>
+            </div>
+            <div class="exp-tags-row">
+              <span class="exp-pill">Robotics</span>
+              <span class="exp-pill">Rocker Boogie Mechanism</span>
+              <span class="exp-pill">Fire Detection</span>
+              <span class="exp-pill">Rescue Engineering</span>
+              <span class="exp-pill">Autonomous Systems</span>
+              <span class="exp-pill">Team Project</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -511,8 +561,17 @@
       </div>
 
       <div class="gallery-item reveal reveal-delay-1" data-cat="fablab">
-        <div class="gallery-img-wrap" data-src="./gallery-fablab-02.jpg" data-cap="NIKO &mdash; the most advanced humanoid robot built at the Fab Lab">
-          <img src="./gallery-fablab-02.jpg" alt="NIKO Robot" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
+        <div class="gallery-img-wrap video-slot" style="cursor:default;">
+          <video id="galleryVideo" controls preload="metadata" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <source src="./gallery-video-01.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-missing-placeholder" id="videoMissing" style="display:none;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:.6rem;color:rgba(212,144,10,.35);">
+              <span style="font-size:2.5rem;">&#127909;</span>
+              <span style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;">Upload gallery-video-01.mp4</span>
+            </div>
+          </div>
         </div>
         <div class="gallery-caption"><span class="gcap-tag">Fab Lab</span><p class="gcap-text">NIKO &mdash; the most advanced humanoid robot built at the Fab Lab</p></div>
       </div>
@@ -579,26 +638,6 @@
           <img src="./gallery-research-05.jpg" alt="Project Showcase" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">&#128247;</div><div class="gallery-overlay"><span>&#128269;</span></div>
         </div>
         <div class="gallery-caption"><span class="gcap-tag">Showcase</span><p class="gcap-text">Showcasing research projects to judges and scientists</p></div>
-      </div>
-
-      <!-- Video slot -->
-      <div class="gallery-item reveal reveal-delay-1" data-cat="fablab">
-        <div class="gallery-img-wrap video-slot" style="cursor:default;">
-          <video id="galleryVideo" controls preload="metadata" style="width:100%;height:100%;object-fit:cover;display:block;">
-            <source src="./gallery-video-01.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <div class="video-missing-placeholder" id="videoMissing" style="display:none;">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:.6rem;color:rgba(212,144,10,.35);">
-              <span style="font-size:2.5rem;">&#127909;</span>
-              <span style="font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;">Upload gallery-video-01.mp4</span>
-            </div>
-          </div>
-        </div>
-        <div class="gallery-caption">
-          <span class="gcap-tag">Fab Lab</span>
-          <p class="gcap-text">Fab Lab in action &mdash; behind the scenes at Cumilla</p>
-        </div>
       </div>
 
     </div>
@@ -685,13 +724,32 @@
     });
   }
 
+  // Rocker Boogie image fallback
+  var rockerImg = document.getElementById('rockerImg');
+  var rockerFallback = document.getElementById('rockerFallback');
+  if (rockerImg) {
+    rockerImg.addEventListener('error', function () {
+      rockerImg.style.display = 'none';
+      rockerFallback.style.cssText = 'display:flex;align-items:center;justify-content:center;position:absolute;inset:0;font-size:2rem;color:rgba(212,144,10,.25);background:var(--navy3);';
+    });
+    if (rockerImg.complete && rockerImg.naturalWidth === 0) {
+      rockerImg.style.display = 'none';
+      rockerFallback.style.cssText = 'display:flex;align-items:center;justify-content:center;position:absolute;inset:0;font-size:2rem;color:rgba(212,144,10,.25);background:var(--navy3);';
+    }
+  }
+
   // Profile photo
   var photo = document.getElementById('profilePhoto');
   var fallback = document.getElementById('profileFallback');
-  function showFallback() { photo.style.display = 'none'; fallback.style.display = 'flex'; }
   if (photo) {
-    photo.addEventListener('error', showFallback);
-    if (photo.complete && photo.naturalWidth === 0) showFallback();
+    photo.addEventListener('load', function () {
+      photo.style.display = 'block';
+      fallback.style.display = 'none';
+    });
+    photo.addEventListener('error', function () {
+      photo.style.display = 'none';
+      fallback.style.display = 'flex';
+    });
   }
 
   // Nav scroll
