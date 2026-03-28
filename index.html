@@ -70,8 +70,8 @@
   .profile-frame::before { content: ''; position: absolute; top: -16px; right: -16px; bottom: 16px; left: 16px; border: 1px solid rgba(212,144,10,.25); z-index: 0; }
   .profile-frame::after  { content: ''; position: absolute; top: 16px; right: 16px; bottom: -16px; left: -16px; border: 1px solid rgba(212,144,10,.1); z-index: 0; }
   .profile-img { position: relative; z-index: 1; width: 100%; height: 100%; background: var(--navy3); overflow: hidden; }
-  .profile-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: sepia(.15) contrast(1.05); display: none; }
-  .profile-initials { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 700; color: var(--amber); }
+  .profile-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: sepia(.15) contrast(1.05); display: block; }
+  .profile-initials { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 700; color: var(--amber); z-index: 0; }
   .profile-tag { position: absolute; bottom: -1rem; left: -1rem; z-index: 2; background: var(--amber); color: var(--navy); padding: .6rem 1.2rem; font-size: .68rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
 
   /* DIVIDER */
@@ -736,20 +736,6 @@
       rockerImg.style.display = 'none';
       rockerFallback.style.cssText = 'display:flex;align-items:center;justify-content:center;position:absolute;inset:0;font-size:2rem;color:rgba(212,144,10,.25);background:var(--navy3);';
     }
-  }
-
-  // Profile photo
-  var photo = document.getElementById('profilePhoto');
-  var fallback = document.getElementById('profileFallback');
-  if (photo) {
-    photo.addEventListener('load', function () {
-      photo.style.display = 'block';
-      fallback.style.display = 'none';
-    });
-    photo.addEventListener('error', function () {
-      photo.style.display = 'none';
-      fallback.style.display = 'flex';
-    });
   }
 
   // Nav scroll
