@@ -179,7 +179,7 @@
 
   /* PLATFORM */
   #platform { padding: 8rem 0; position: relative; z-index: 2; background: linear-gradient(135deg,var(--navy2) 0%,var(--navy) 100%); border-top: 1px solid rgba(212,144,10,.08); border-bottom: 1px solid rgba(212,144,10,.08); }
-  #platform .container { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  #platform .container:not(.mg-more) { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
   .platform-visual { aspect-ratio: 4/3; background: var(--navy3); border: 1px solid rgba(212,144,10,.15); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
   .platform-visual::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,rgba(212,144,10,.03) 0,rgba(212,144,10,.03) 1px,transparent 1px,transparent 40px); }
   .platform-label-inner { position: relative; z-index: 1; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
@@ -190,6 +190,24 @@
   .platform-features { display: flex; flex-direction: column; gap: .8rem; }
   .feat { display: flex; align-items: flex-start; gap: .8rem; font-size: .82rem; color: var(--slate); }
   .feat-dot { width: 5px; height: 5px; background: var(--amber); border-radius: 50%; margin-top: .45rem; flex-shrink: 0; }
+
+
+  #platform .mg-more { margin-top: 6rem; display: flex; flex-direction: column; gap: 3.5rem; }
+  .platform-shot { aspect-ratio: auto; background: none; border: none; display: block; overflow: visible; }
+  .platform-shot::before { display: none; }
+  .platform-shot .gallery-img-wrap { aspect-ratio: 16/10; border-color: rgba(212,144,10,.25); box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+  .mg-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5px; border: 1px solid rgba(212,144,10,.12); background: rgba(212,144,10,.08); }
+  .mg-stat { background: var(--navy2); padding: 1.6rem 1rem; text-align: center; display: flex; flex-direction: column; gap: .4rem; }
+  .mg-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700; color: var(--amber2); line-height: 1; }
+  .mg-lbl { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: var(--slate); }
+  .mg-cols { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5px; }
+  .mg-col { background: var(--navy2); border: 1px solid rgba(212,144,10,.08); padding: 1.8rem 1.5rem; display: flex; flex-direction: column; gap: .9rem; transition: border .3s, background .3s, transform .3s; }
+  .mg-col:hover { border-color: rgba(212,144,10,.3); background: var(--navy3); transform: translateY(-4px); }
+  .mg-col h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; color: var(--white); line-height: 1.2; }
+  .mg-col p { font-size: .78rem; line-height: 1.7; color: var(--slate); }
+  .mg-shots { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .mg-shot { display: flex; flex-direction: column; gap: .75rem; }
+  .mg-shot .gallery-img-wrap { aspect-ratio: 16/9; }
 
   /* CONTACT */
   #contact { padding: 8rem 0 6rem; position: relative; z-index: 2; }
@@ -222,7 +240,10 @@
     #story .container { grid-template-columns: 1fr; gap: 3rem; }
     .research-grid { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2,1fr); }
-    #platform .container { grid-template-columns: 1fr; gap: 3rem; }
+    #platform .container:not(.mg-more) { grid-template-columns: 1fr; gap: 3rem; }
+    .mg-stats { grid-template-columns: repeat(2,1fr); }
+    .mg-cols { grid-template-columns: repeat(2,1fr); }
+    .mg-shots { grid-template-columns: repeat(2,1fr); }
     .nav-links { display: none; }
     .hamburger { display: flex; }
     footer { flex-direction: column; align-items: center; text-align: center; }
@@ -230,6 +251,7 @@
   }
   @media (max-width: 540px) {
     .gallery-grid { grid-template-columns: 1fr; }
+    .mg-cols, .mg-shots { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -618,26 +640,73 @@
 <!-- PLATFORM -->
 <section id="platform">
   <div class="container">
-    <div class="platform-visual reveal">
-      <div class="platform-label-inner">
-        <div class="platform-icon-big">P</div>
-        <div class="platform-tag-inner">Porimol&rsquo;s &mdash; Analytical Gaming Platform</div>
+    <div class="platform-visual platform-shot reveal">
+      <div class="gallery-img-wrap mg-wrap" data-src="./mognota-hero.jpg" data-cap="Mognota &mdash; the home page: 34 live games, free to play">
+        <img src="./mognota-hero.jpg" alt="Mognota home page" loading="lazy" onerror="this.parentElement.classList.add('img-missing')" /><div class="img-placeholder">M</div><div class="gallery-overlay"><span>&#128269;</span></div>
       </div>
     </div>
     <div class="platform-info">
       <div class="reveal">
-        <div class="section-label">Software Venture</div>
+        <div class="section-label">Software Venture &middot; Live at mognota.com</div>
         <h2 class="section-title">Work as <em>Play.</em></h2>
       </div>
-      <p class="platform-desc reveal reveal-delay-1">Applying the rigor of research to the fluidity of software. <strong style="color:var(--cream);">Porimol&rsquo;s</strong> is an analytical gaming platform built to sharpen cognitive and strategic thinking through carefully designed games. Still being crafted &mdash; but already open for exploration.</p>
+      <p class="platform-desc reveal reveal-delay-1"><strong style="color:var(--cream);">Mognota</strong> is a live, head-to-head arena of 34 games &mdash; football with pandas, chess, cube races, physics &amp; maths sprints, word duels and more. It applies the rigor of research to the fluidity of software: every game is designed to sharpen analytical and strategic thinking. Jump in as a guest in seconds, earn XP every match, and climb a weekly league.</p>
       <div class="platform-features reveal reveal-delay-2">
-        <div class="feat"><div class="feat-dot"></div><span>Games engineered to build analytical depth and strategic reasoning</span></div>
-        <div class="feat"><div class="feat-dot"></div><span>Designed for long-form focus with eye-comfort interfaces</span></div>
-        <div class="feat"><div class="feat-dot"></div><span>Actively in development &mdash; more coming soon</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Real-time and turn-based duels, played live against friends or players worldwide</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Nine cognitive skill pools &mdash; memory, logic, spatial reasoning, speed and more</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Study Sprints in Physics, Biology, Chemistry and Maths, with English and Bangla</span></div>
+        <div class="feat"><div class="feat-dot"></div><span>Free to play, works in the browser, and actively growing &mdash; more coming soon</span></div>
       </div>
-      <div class="reveal reveal-delay-3">
-        <a href="https://porimols.web.app/" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width:fit-content;margin-top:.5rem;">Visit Porimol&rsquo;s &#x2197;</a>
+      <div class="reveal reveal-delay-3" style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://mognota.com" target="_blank" rel="noopener noreferrer" class="btn-primary" style="width:fit-content;margin-top:.5rem;">Play on Mognota &#x2197;</a>
       </div>
+    </div>
+  </div>
+
+  <div class="container mg-more">
+    <div class="mg-stats reveal">
+      <div class="mg-stat"><span class="mg-num">34</span><span class="mg-lbl">Games</span></div>
+      <div class="mg-stat"><span class="mg-num">9</span><span class="mg-lbl">Cognitive pools</span></div>
+      <div class="mg-stat"><span class="mg-num">6</span><span class="mg-lbl">League tiers</span></div>
+      <div class="mg-stat"><span class="mg-num">$0</span><span class="mg-lbl">To play</span></div>
+    </div>
+
+    <div class="mg-cols">
+      <div class="mg-col reveal"><div class="card-tag">Arena</div><h3>Football &amp; arcade</h3><p>Live panda football, slingshot pucks, flick football and Pen Fight &mdash; real-time duels with a shared physics simulation on both screens.</p></div>
+      <div class="mg-col reveal reveal-delay-1"><div class="card-tag">Classics</div><h3>Board games</h3><p>Chess (1v1 and four-player), checkers, shogi, ludo, carrom and backgammon, played live and ranked.</p></div>
+      <div class="mg-col reveal reveal-delay-2"><div class="card-tag">Study</div><h3>Science &amp; maths sprints</h3><p>Ten problems, one 15-minute clock. Problem solving and critical thinking, with animated figures &mdash; not exam cramming.</p></div>
+      <div class="mg-col reveal reveal-delay-3"><div class="card-tag">Words &amp; puzzles</div><h3>Minds at work</h3><p>Word duels, knowledge grids, Sudoku, Memory Match, Cube Race and maze races that test focus and spatial thinking.</p></div>
+    </div>
+
+    <div class="mg-shots">
+      <div class="mg-shot reveal">
+        <div class="gallery-img-wrap mg-wrap" data-src="./mognota-games.jpg" data-cap="The games hub &mdash; pick a battlefield from 34 games"><img src="./mognota-games.jpg" alt="Mognota games hub" loading="lazy" /><div class="gallery-overlay"><span>&#128269;</span></div></div>
+        <div class="gallery-caption"><span class="gcap-tag">Games hub</span><p class="gcap-text">Pick your battlefield &mdash; 34 games in one place</p></div>
+      </div>
+      <div class="mg-shot reveal reveal-delay-1">
+        <div class="gallery-img-wrap mg-wrap" data-src="./mognota-football.jpg" data-cap="Football &mdash; a live 1v1 match with panda players"><img src="./mognota-football.jpg" alt="Mognota Football" loading="lazy" /><div class="gallery-overlay"><span>&#128269;</span></div></div>
+        <div class="gallery-caption"><span class="gcap-tag">Football</span><p class="gcap-text">A live 1v1 match, played by dragging your striker</p></div>
+      </div>
+      <div class="mg-shot reveal reveal-delay-2">
+        <div class="gallery-img-wrap mg-wrap" data-src="./mognota-physics-sprint.jpg" data-cap="Physics Sprint &mdash; the same ten problems and one 15-minute clock"><img src="./mognota-physics-sprint.jpg" alt="Mognota Physics Sprint" loading="lazy" /><div class="gallery-overlay"><span>&#128269;</span></div></div>
+        <div class="gallery-caption"><span class="gcap-tag">Study Sprint</span><p class="gcap-text">Physics Sprint &mdash; the same ten problems, one clock</p></div>
+      </div>
+      <div class="mg-shot reveal">
+        <div class="gallery-img-wrap mg-wrap" data-src="./mognota-cube-race.jpg" data-cap="Cube Race &mdash; both players get the same scrambled cube; first to solve wins"><img src="./mognota-cube-race.jpg" alt="Mognota Cube Race" loading="lazy" /><div class="gallery-overlay"><span>&#128269;</span></div></div>
+        <div class="gallery-caption"><span class="gcap-tag">Puzzle</span><p class="gcap-text">Cube Race &mdash; first to solve the shared cube wins</p></div>
+      </div>
+      <div class="mg-shot reveal reveal-delay-1">
+        <div class="gallery-img-wrap mg-wrap" data-src="./mognota-sling-puck.jpg" data-cap="Sling Puck &mdash; real-time slingshot duel"><img src="./mognota-sling-puck.jpg" alt="Mognota Sling Puck" loading="lazy" /><div class="gallery-overlay"><span>&#128269;</span></div></div>
+        <div class="gallery-caption"><span class="gcap-tag">Reflex</span><p class="gcap-text">Sling Puck &mdash; clear your side before your rival does</p></div>
+      </div>
+      <div class="mg-shot reveal reveal-delay-2">
+        <div class="gallery-img-wrap mg-wrap" data-src="./mognota-phone.jpg" data-cap="Mognota on a phone &mdash; every game and page has its own phone layout"><img src="./mognota-phone.jpg" alt="Mognota on a phone" loading="lazy" style="object-position:top;" /><div class="gallery-overlay"><span>&#128269;</span></div></div>
+        <div class="gallery-caption"><span class="gcap-tag">Mobile</span><p class="gcap-text">Built for phones and computers alike</p></div>
+      </div>
+    </div>
+
+    <div class="reveal" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:3rem;">
+      <a href="https://mognota.com" target="_blank" rel="noopener noreferrer" class="btn-primary">Visit mognota.com &#x2197;</a>
     </div>
   </div>
 </section>
@@ -656,7 +725,7 @@
       <a href="/cdn-cgi/l/email-protection#e28c8d808b8c8687808c83968adadadadadaa2858f838b8ecc818d8f" class="contact-email reveal reveal-delay-2"><span class="__cf_email__" data-cfemail="aec0c1ccc7c0cacbccc0cfdac69696969696eec9c3cfc7c280cdc1c3">[email&#160;protected]</span></a>
       <div class="reveal reveal-delay-3" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
         <a href="/cdn-cgi/l/email-protection#b9d7d6dbd0d7dddcdbd7d8cdd18181818181f9ded4d8d0d597dad6d4" class="btn-primary">Send an Email &#x2197;</a>
-        <a href="https://porimols.web.app/" target="_blank" rel="noopener noreferrer" class="btn-ghost">Explore Porimol&rsquo;s</a>
+        <a href="https://mognota.com" target="_blank" rel="noopener noreferrer" class="btn-ghost">Explore Mognota</a>
       </div>
     </div>
   </div>
@@ -735,23 +804,28 @@
   var visibleItems = [];
   var currentIdx = 0;
 
+  var lbWraps = [];
   function openLightbox(wrap) {
-    visibleItems = allItems.filter(function (i) { return !i.classList.contains('hidden'); });
-    var wraps = visibleItems.map(function (i) { return i.querySelector('.gallery-img-wrap'); });
-    currentIdx = wraps.indexOf(wrap);
+    if (wrap.classList.contains('mg-wrap')) {
+      lbWraps = Array.from(document.querySelectorAll('.mg-wrap'));
+    } else {
+      visibleItems = allItems.filter(function (i) { return !i.classList.contains('hidden'); });
+      lbWraps = visibleItems.map(function (i) { return i.querySelector('.gallery-img-wrap'); }).filter(function (w) { return w.dataset.src; });
+    }
+    currentIdx = lbWraps.indexOf(wrap);
     showLbImage(currentIdx);
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 
   function showLbImage(idx) {
-    var wraps = visibleItems.map(function (i) { return i.querySelector('.gallery-img-wrap'); });
-    var w = wraps[idx];
+    var w = lbWraps[idx];
     lbImg.src = w.dataset.src;
     lbCaption.innerHTML = w.dataset.cap || '';
   }
 
   document.querySelectorAll('.gallery-img-wrap').forEach(function (wrap) {
+    if (wrap.classList.contains('video-slot')) return;
     wrap.addEventListener('click', function () { openLightbox(wrap); });
   });
 
@@ -761,12 +835,12 @@
   });
 
   document.getElementById('lbPrev').addEventListener('click', function () {
-    currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+    currentIdx = (currentIdx - 1 + lbWraps.length) % lbWraps.length;
     showLbImage(currentIdx);
   });
 
   document.getElementById('lbNext').addEventListener('click', function () {
-    currentIdx = (currentIdx + 1) % visibleItems.length;
+    currentIdx = (currentIdx + 1) % lbWraps.length;
     showLbImage(currentIdx);
   });
 
@@ -779,8 +853,8 @@
   document.addEventListener('keydown', function (e) {
     if (!lightbox.classList.contains('open')) return;
     if (e.key === 'Escape') { lightbox.classList.remove('open'); document.body.style.overflow = ''; }
-    if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length; showLbImage(currentIdx); }
-    if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % visibleItems.length; showLbImage(currentIdx); }
+    if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx - 1 + lbWraps.length) % lbWraps.length; showLbImage(currentIdx); }
+    if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % lbWraps.length; showLbImage(currentIdx); }
   });
 </script>
 </body>
